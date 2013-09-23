@@ -7,7 +7,7 @@ I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C84FFA)
 I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C84FFA)
 I (C:\Keil\ARM\Inc\Freescale\Kinetis\system_MKL25Z4.h)(0x51C84AAA)
 F (.\startup_MKL25Z4.s)(0x51C84D50)(--cpu Cortex-M0+ -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Freescale\Kinetis--list .\flash\startup_mkl25z4.lst --xref -o .\flash\startup_mkl25z4.o --depend .\flash\startup_mkl25z4.d)
-F (.\Blinky.c)(0x00000000)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Freescale\Kinetis-o .\flash\blinky.o --omf_browse .\flash\blinky.crf --depend .\flash\blinky.d)
+F (.\Blinky.c)(0x5226645D)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Freescale\Kinetis-o .\flash\blinky.o --omf_browse .\flash\blinky.crf --depend .\flash\blinky.d)
 I (C:\Keil\ARM\Inc\Freescale\Kinetis\MKL25Z4.H)(0x51C84AA8)
 I (C:\Keil\ARM\CMSIS\Include\core_cm0plus.h)(0x51C84FFA)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C851F4)

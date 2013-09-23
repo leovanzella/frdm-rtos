@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>CMSIS-DAP-MTB</TargetName>
+      <TargetName>FDRM_RTOS</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -125,7 +125,7 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
-            <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <LimitSpeedToRealTime>1</LimitSpeedToRealTime>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -351,7 +351,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.;.\FreeRTOS-Source\include;.\FreeRTOS-Source\portable\RVDS\ARM_CM3</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -393,11 +393,6 @@
           <GroupName>Startup</GroupName>
           <Files>
             <File>
-              <FileName>system_MKL25Z4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\system_MKL25Z4.c</FilePath>
-            </File>
-            <File>
               <FileName>startup_MKL25Z4.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\startup_MKL25Z4.s</FilePath>
@@ -408,9 +403,9 @@
           <GroupName>Source Files</GroupName>
           <Files>
             <File>
-              <FileName>Blinky.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Blinky.c</FilePath>
+              <FilePath>.\main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -421,6 +416,36 @@
               <FileName>Abstract.txt</FileName>
               <FileType>5</FileType>
               <FilePath>.\Abstract.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FreeRTOS-Source</GroupName>
+          <Files>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</FilePath>
+            </File>
+            <File>
+              <FileName>list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\list.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tasks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\tasks.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\MemMang\heap_1.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -813,11 +838,6 @@
           <GroupName>Startup</GroupName>
           <Files>
             <File>
-              <FileName>system_MKL25Z4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\system_MKL25Z4.c</FilePath>
-            </File>
-            <File>
               <FileName>startup_MKL25Z4.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\startup_MKL25Z4.s</FilePath>
@@ -828,9 +848,9 @@
           <GroupName>Source Files</GroupName>
           <Files>
             <File>
-              <FileName>Blinky.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Blinky.c</FilePath>
+              <FilePath>.\main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -841,6 +861,36 @@
               <FileName>Abstract.txt</FileName>
               <FileType>5</FileType>
               <FilePath>.\Abstract.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FreeRTOS-Source</GroupName>
+          <Files>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</FilePath>
+            </File>
+            <File>
+              <FileName>list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\list.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tasks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\tasks.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\MemMang\heap_1.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1233,11 +1283,6 @@
           <GroupName>Startup</GroupName>
           <Files>
             <File>
-              <FileName>system_MKL25Z4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\system_MKL25Z4.c</FilePath>
-            </File>
-            <File>
               <FileName>startup_MKL25Z4.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\startup_MKL25Z4.s</FilePath>
@@ -1248,9 +1293,9 @@
           <GroupName>Source Files</GroupName>
           <Files>
             <File>
-              <FileName>Blinky.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Blinky.c</FilePath>
+              <FilePath>.\main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1261,6 +1306,36 @@
               <FileName>Abstract.txt</FileName>
               <FileType>5</FileType>
               <FilePath>.\Abstract.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FreeRTOS-Source</GroupName>
+          <Files>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\RVDS\ARM_CM3\port.c</FilePath>
+            </File>
+            <File>
+              <FileName>list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\list.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tasks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\tasks.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FreeRTOS-Source\portable\MemMang\heap_1.c</FilePath>
             </File>
           </Files>
         </Group>
