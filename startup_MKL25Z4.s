@@ -2,8 +2,8 @@
 ; * @file:    startup_MKL25Z4.s
 ; * @purpose: CMSIS Cortex-M0plus Core Device Startup File for the
 ; *           MKL25Z4
-; * @version: 1.1
-; * @date:    2012-6-21
+; * @version: 1.4
+; * @date:    2012-11-22
 ; *
 ; * Copyright: 1997 - 2012 Freescale Semiconductor, Inc. All Rights Reserved.
 ;*
@@ -16,7 +16,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000400
+Stack_Size      EQU     0x00000200
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -27,7 +27,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size       EQU     0x00000000
+Heap_Size       EQU     0x00000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -43,33 +43,34 @@ __heap_limit
 
                 AREA    RESET, DATA, READONLY
                 EXPORT  __Vectors
-                EXPORT  __Vectors_End
-                EXPORT  __Vectors_Size
+				EXTERN xPortSysTickHandler
+				EXTERN xPortPendSVHandler
+				EXTERN vPortSVCHandler
 
-__Vectors       DCD     __initial_sp  ; Top of Stack
-                DCD     Reset_Handler  ; Reset Handler
-                DCD     NMI_Handler  ; NMI Handler
-                DCD     HardFault_Handler  ; Hard Fault Handler
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     SVC_Handler  ; SVCall Handler
-                DCD     0  ; Reserved
-                DCD     0  ; Reserved
-                DCD     PendSV_Handler  ; PendSV Handler
-                DCD     SysTick_Handler  ; SysTick Handler
+__Vectors       DCD     __initial_sp              ; Top of Stack
+                DCD     Reset_Handler             ; Reset Handler
+                DCD     NMI_Handler               ; NMI Handler
+                DCD     HardFault_Handler         ; Hard Fault Handler
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     vPortSVCHandler           ; FreeRTOS SVCall Handler
+                DCD     0                         ; Reserved
+                DCD     0                         ; Reserved
+                DCD     xPortPendSVHandler        ; FreeRTOS PendSV Handler
+                DCD     xPortSysTickHandler       ; FreeRTOS SysTick Handler
 
                 ; External Interrupts
-                DCD     DMA0_IRQHandler  ; DMA channel 0 transfer complete interrupt
-                DCD     DMA1_IRQHandler  ; DMA channel 1 transfer complete interrupt
-                DCD     DMA2_IRQHandler  ; DMA channel 2 transfer complete interrupt
-                DCD     DMA3_IRQHandler  ; DMA channel 3 transfer complete interrupt
+                DCD     DMA0_IRQHandler  ; DMA channel 0 transfer complete/error interrupt
+                DCD     DMA1_IRQHandler  ; DMA channel 1 transfer complete/error interrupt
+                DCD     DMA2_IRQHandler  ; DMA channel 2 transfer complete/error interrupt
+                DCD     DMA3_IRQHandler  ; DMA channel 3 transfer complete/error interrupt
                 DCD     Reserved20_IRQHandler  ; Reserved interrupt 20
-                DCD     FTFA_IRQHandler  ; FTFA interrupt
+                DCD     FTFA_IRQHandler  ; FTFA command complete/read collision interrupt
                 DCD     LVD_LVW_IRQHandler  ; Low Voltage Detect, Low Voltage Warning
                 DCD     LLW_IRQHandler  ; Low Leakage Wakeup
                 DCD     I2C0_IRQHandler  ; I2C0 interrupt
@@ -89,16 +90,15 @@ __Vectors       DCD     __initial_sp  ; Top of Stack
                 DCD     PIT_IRQHandler  ; PIT timer interrupt
                 DCD     Reserved39_IRQHandler  ; Reserved interrupt 39
                 DCD     USB0_IRQHandler  ; USB0 interrupt
-                DCD     DAC0_IRQHandler  ; DAC interrupt
+                DCD     DAC0_IRQHandler  ; DAC0 interrupt
                 DCD     TSI0_IRQHandler  ; TSI0 interrupt
                 DCD     MCG_IRQHandler  ; MCG interrupt
                 DCD     LPTimer_IRQHandler  ; LPTimer interrupt
                 DCD     Reserved45_IRQHandler  ; Reserved interrupt 45
                 DCD     PORTA_IRQHandler  ; Port A interrupt
                 DCD     PORTD_IRQHandler  ; Port D interrupt
-__Vectors_End
 
-__Vectors_Size 	EQU     __Vectors_End - __Vectors
+
 
 ; <h> Flash Configuration
 ;   <i> 16-byte flash configuration field that stores default protection settings (loaded on reset)
@@ -235,6 +235,7 @@ FSEC            EQU     0xFE
                 DCB     FSEC,       FOPT,       0xFF,     0xFF
                 ENDIF
 
+
                 AREA    |.text|, CODE, READONLY
 
 
@@ -251,12 +252,13 @@ Reset_Handler   PROC
                 ENDP
 
 
-; Dummy Exception Handlers (infinite loops which can be modified)
-
-NMI_Handler     PROC
-                EXPORT  NMI_Handler               [WEAK]
-                B       .
-                ENDP
+; Dummy Exception Handlers (infinite loops which can be modified)                
+; now, under COMMON lpc8xx_nmi.c and lpc8xx_nmi.h, a real NMI handler is created if NMI is enabled 
+; for particular peripheral.
+;NMI_Handler     PROC
+;                EXPORT  NMI_Handler               [WEAK]
+;                B       .
+;                ENDP
 HardFault_Handler\
                 PROC
                 EXPORT  HardFault_Handler         [WEAK]
@@ -276,6 +278,8 @@ SysTick_Handler PROC
                 ENDP
 
 Default_Handler PROC
+
+                EXPORT  NMI_Handler               [WEAK]
                 EXPORT  DMA0_IRQHandler     [WEAK]
                 EXPORT  DMA1_IRQHandler     [WEAK]
                 EXPORT  DMA2_IRQHandler     [WEAK]
@@ -310,6 +314,7 @@ Default_Handler PROC
                 EXPORT  PORTD_IRQHandler     [WEAK]
                 EXPORT  DefaultISR                      [WEAK]
 
+NMI_Handler
 DMA0_IRQHandler
 DMA1_IRQHandler
 DMA2_IRQHandler
